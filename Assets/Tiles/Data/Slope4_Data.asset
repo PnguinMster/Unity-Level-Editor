@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aef656aee2d394044b87ba78195c41ff, type: 3}
+  m_Name: Slope4_Data
+  m_EditorClassIdentifier: 
+  id: Hovestom_Slope4
+  icon: {fileID: 21300000, guid: e6c6c748ad5fc544db1aa419f097eb7b, type: 3}
+  prefab: {fileID: 2184424459117529782, guid: 84e54519e76099c4ebd1734502c39288, type: 3}

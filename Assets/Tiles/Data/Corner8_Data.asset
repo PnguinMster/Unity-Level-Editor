@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aef656aee2d394044b87ba78195c41ff, type: 3}
+  m_Name: Corner8_Data
+  m_EditorClassIdentifier: 
+  id: Hovestom_Corner8
+  icon: {fileID: 21300000, guid: 7cee624c7f7161a4490fa25ae577533a, type: 3}
+  prefab: {fileID: 5858941125555781617, guid: 5d4a085310267804a81e19a0bbcd1a4a, type: 3}
