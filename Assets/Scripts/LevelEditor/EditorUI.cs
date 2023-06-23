@@ -39,12 +39,24 @@ public class EditorUI : MonoBehaviour, IDataPersistence
 
     protected List<PlacedTile> placedTiles;
 
+    private void OnEnable()
+    {
+        EditorController.onPlacedTile += AddPlacedTile;
+        EditorController.onTileDeleted += DeletePlacedTile;
+        EditorController.onUpdatePlacedTile += UpdatePlacedTile;
+    }
+
+    private void OnDisable()
+    {
+        EditorController.onPlacedTile -= AddPlacedTile;
+        EditorController.onTileDeleted -= DeletePlacedTile;
+        EditorController.onUpdatePlacedTile -= UpdatePlacedTile;
+    }
+
     private void Start()
     {
         LoadLevelTiles();
 
-        EditorController.onPlacedTile += AddPlacedTile;
-        EditorController.onUpdatePlacedTile += UpdatePlacedTile;
         if(placedTiles == null)
             placedTiles = new List<PlacedTile>();
 
@@ -79,6 +91,15 @@ public class EditorUI : MonoBehaviour, IDataPersistence
     {
         if (placedTiles.Any(x => x.PlacedID == tileAdded.PlacedID)) return;
         placedTiles.Add(tileAdded);
+    }
+    private void DeletePlacedTile(int tilePlacedID)
+    {
+        for (int i = 0; i < placedTiles.Count;i++) {
+            if (placedTiles[i].PlacedID == tilePlacedID) {
+                placedTiles.RemoveAt(i);
+                return;
+            }
+        }
     }
     private void UpdatePlacedTile(int runtimeID, Transform transform)
     {

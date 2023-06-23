@@ -2,8 +2,7 @@ using System;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine;
-using UnityEngine.UI;
-using Newtonsoft.Json.Bson;
+using UnityEditor.Rendering;
 
 [RequireComponent(typeof(PlayerInput))]
 public class EditorController : MonoBehaviour
@@ -44,6 +43,7 @@ public class EditorController : MonoBehaviour
     private GameObject outlineBlock;
 
     public static event Action<PlacedTile> onPlacedTile;
+    public static event Action<int> onTileDeleted;
     public static event Action<int, Transform> onUpdatePlacedTile;
 
     private void Start()
@@ -92,12 +92,22 @@ public class EditorController : MonoBehaviour
             return;
 
         for (int i = 0; i < transformObjs.Length; i++) {
-            transformObjs[i].transform.parent = null;
             transformObjs[i].transform.SetParent(selectedBlock.transform);
             transformObjs[i].transform.position = selectedBlock.transform.position;
             transformObjs[i].transform.localScale = selectedBlock.transform.localScale * 0.1f;
         }
+
         transformObjs[transformationIndex].SetActive(true);
+    }
+    private void ResetTransforms()
+    {
+        for (int i = 0; i < transformObjs.Length; i++) {
+            transformObjs[i].transform.SetParent(null);
+            transformObjs[i].transform.position = Vector3.zero;
+            transformObjs[i].transform.localScale = Vector3.one;
+        }
+
+        transformObjs[transformationIndex].SetActive(false);
     }
     private void UpdateBlock(GameObject block) => onUpdatePlacedTile?.Invoke(block.GetComponent<TileInfo>().runtimeID, block.transform);
     private void PlaceHandler()
@@ -285,6 +295,16 @@ public class EditorController : MonoBehaviour
         if (pressingCTRL) return;
         placeCursor.GetComponent<MeshFilter>().mesh = null;
         selectedTile = null;
+    }
+    private void OnDelete(InputValue value)
+    {
+        if (transformObjs[transformationIndex].transform.parent == null)
+            return;
+
+        GameObject blockToDelete = transformObjs[transformationIndex].transform.parent.gameObject;
+        onTileDeleted.Invoke(blockToDelete.GetComponent<TileInfo>().runtimeID);
+        ResetTransforms();
+        Destroy(blockToDelete);
     }
     private void OnCTRL(InputValue value) => pressingCTRL = value.Get<float>() == 1;
     private void OnScroll(InputValue value) => planeHeight += (int)Mathf.Sign(value.Get<float>()) * gridY;
